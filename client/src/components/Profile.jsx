@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { getUserDetails, UserUpdate } from "../api";
+import { useNavigate } from 'react-router-dom';
 
 
 const Container = styled.div`
@@ -124,6 +125,7 @@ const Profile = () => {
   const [file, setFile] = useState(null);
   const [achievementFile, setAchievementFile] = useState(null);
   const [previewImg, setPreviewImg] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -133,6 +135,10 @@ const Profile = () => {
         setFormData(res.data);
         setPreviewImg(res.data.img);
       } catch (err) {
+        console.log("lol")
+        if(err.status === 401){
+          navigate('/login');
+        }
         console.error("Failed to fetch user details", err);
       }
     };
